@@ -1,19 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import fs from 'fs';
-import assert from 'assert';
-import nock from 'nock';
-
 import * as Actions from 'actions/admin';
-import {Client4} from 'client';
-
-import {RequestStatus, Stats} from '../constants';
+import assert from 'assert';
+import { Client4 } from 'client';
+import fs from 'fs';
+import nock from 'nock';
 import TestHelper from 'test/test_helper';
 import configureStore from 'test/test_store';
+import { RequestStatus, Stats } from '../constants';
 
-const OK_RESPONSE = {status: 'OK'};
-const NO_GROUPS_RESPONSE = {count: 0, groups: []};
+
+
+const OK_RESPONSE = { status: 'OK' };
+const NO_GROUPS_RESPONSE = { count: 0, groups: [] };
 
 const samlIdpUrl = 'http://idpurl';
 const samlIdpDescriptorUrl = 'http://idpdescriptorurl';
@@ -91,7 +91,7 @@ describe('Actions.Admin', () => {
             get('/config').
             reply(200, {
                 TeamSettings: {
-                    SiteName: 'Mattermost',
+                    SiteName: 'Bulletin',
                 },
             });
 
@@ -123,7 +123,7 @@ describe('Actions.Admin', () => {
             get('/config').
             reply(200, {
                 TeamSettings: {
-                    SiteName: 'Mattermost',
+                    SiteName: 'Bulletin',
                 },
             });
 
@@ -136,7 +136,7 @@ describe('Actions.Admin', () => {
                 user_id: '1',
             });
 
-        const {data} = await Actions.getConfig()(store.dispatch, store.getState);
+        const { data } = await Actions.getConfig()(store.dispatch, store.getState);
         const updated = JSON.parse(JSON.stringify(data));
         const oldSiteName = updated.TeamSettings.SiteName;
         const testSiteName = 'MattermostReduxTest';
@@ -215,7 +215,7 @@ describe('Actions.Admin', () => {
             get('/config').
             reply(200, {});
 
-        const {data: config} = await Actions.getConfig()(store.dispatch, store.getState);
+        const { data: config } = await Actions.getConfig()(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             post('/email/test').
@@ -249,7 +249,7 @@ describe('Actions.Admin', () => {
             get('/config').
             reply(200, {});
 
-        const {data: config} = await Actions.getConfig()(store.dispatch, store.getState);
+        const { data: config } = await Actions.getConfig()(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             post('/file/s3_test').
@@ -317,7 +317,7 @@ describe('Actions.Admin', () => {
                 emails: 'joram@example.com',
             });
 
-        const {data: created} = await Actions.createComplianceReport(job)(store.dispatch, store.getState);
+        const { data: created } = await Actions.createComplianceReport(job)(store.dispatch, store.getState);
 
         const state = store.getState();
         const request = state.requests.admin.createCompliance;
@@ -355,7 +355,7 @@ describe('Actions.Admin', () => {
                 emails: 'joram@example.com',
             });
 
-        const {data: report} = await Actions.createComplianceReport(job)(store.dispatch, store.getState);
+        const { data: report } = await Actions.createComplianceReport(job)(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             get(`/compliance/reports/${report.id}`).
@@ -399,7 +399,7 @@ describe('Actions.Admin', () => {
                 emails: 'joram@example.com',
             });
 
-        const {data: report} = await Actions.createComplianceReport(job)(store.dispatch, store.getState);
+        const { data: report } = await Actions.createComplianceReport(job)(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             get('/compliance/reports').
@@ -678,7 +678,7 @@ describe('Actions.Admin', () => {
             get('/analytics/old').
             query(true).
             times(2).
-            reply(200, [{name: 'channel_open_count', value: 495}, {name: 'channel_private_count', value: 19}, {name: 'post_count', value: 2763}, {name: 'unique_user_count', value: 316}, {name: 'team_count', value: 159}, {name: 'total_websocket_connections', value: 1}, {name: 'total_master_db_connections', value: 8}, {name: 'total_read_db_connections', value: 0}, {name: 'daily_active_users', value: 22}, {name: 'monthly_active_users', value: 114}]);
+            reply(200, [{ name: 'channel_open_count', value: 495 }, { name: 'channel_private_count', value: 19 }, { name: 'post_count', value: 2763 }, { name: 'unique_user_count', value: 316 }, { name: 'team_count', value: 159 }, { name: 'total_websocket_connections', value: 1 }, { name: 'total_master_db_connections', value: 8 }, { name: 'total_read_db_connections', value: 0 }, { name: 'daily_active_users', value: 22 }, { name: 'monthly_active_users', value: 114 }]);
 
         await Actions.getStandardAnalytics()(store.dispatch, store.getState);
         await Actions.getStandardAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
@@ -704,7 +704,7 @@ describe('Actions.Admin', () => {
             get('/analytics/old').
             query(true).
             times(2).
-            reply(200, [{name: 'file_post_count', value: 24}, {name: 'hashtag_post_count', value: 876}, {name: 'incoming_webhook_count', value: 16}, {name: 'outgoing_webhook_count', value: 18}, {name: 'command_count', value: 14}, {name: 'session_count', value: 149}]);
+            reply(200, [{ name: 'file_post_count', value: 24 }, { name: 'hashtag_post_count', value: 876 }, { name: 'incoming_webhook_count', value: 16 }, { name: 'outgoing_webhook_count', value: 18 }, { name: 'command_count', value: 14 }, { name: 'session_count', value: 149 }]);
 
         await Actions.getAdvancedAnalytics()(store.dispatch, store.getState);
         await Actions.getAdvancedAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
@@ -730,7 +730,7 @@ describe('Actions.Admin', () => {
             get('/analytics/old').
             query(true).
             times(2).
-            reply(200, [{name: '2017-06-18', value: 16}, {name: '2017-06-16', value: 209}, {name: '2017-06-12', value: 35}, {name: '2017-06-08', value: 227}, {name: '2017-06-07', value: 27}, {name: '2017-06-06', value: 136}, {name: '2017-06-05', value: 127}, {name: '2017-06-04', value: 39}, {name: '2017-06-02', value: 3}, {name: '2017-05-31', value: 52}, {name: '2017-05-30', value: 52}, {name: '2017-05-29', value: 9}, {name: '2017-05-26', value: 198}, {name: '2017-05-25', value: 144}, {name: '2017-05-24', value: 1130}, {name: '2017-05-23', value: 146}]);
+            reply(200, [{ name: '2017-06-18', value: 16 }, { name: '2017-06-16', value: 209 }, { name: '2017-06-12', value: 35 }, { name: '2017-06-08', value: 227 }, { name: '2017-06-07', value: 27 }, { name: '2017-06-06', value: 136 }, { name: '2017-06-05', value: 127 }, { name: '2017-06-04', value: 39 }, { name: '2017-06-02', value: 3 }, { name: '2017-05-31', value: 52 }, { name: '2017-05-30', value: 52 }, { name: '2017-05-29', value: 9 }, { name: '2017-05-26', value: 198 }, { name: '2017-05-25', value: 144 }, { name: '2017-05-24', value: 1130 }, { name: '2017-05-23', value: 146 }]);
 
         await Actions.getPostsPerDayAnalytics()(store.dispatch, store.getState);
         await Actions.getPostsPerDayAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
@@ -756,7 +756,7 @@ describe('Actions.Admin', () => {
             get('/analytics/old').
             query(true).
             times(2).
-            reply(200, [{name: '2017-06-18', value: 2}, {name: '2017-06-16', value: 47}, {name: '2017-06-12', value: 4}, {name: '2017-06-08', value: 55}, {name: '2017-06-07', value: 2}, {name: '2017-06-06', value: 1}, {name: '2017-06-05', value: 2}, {name: '2017-06-04', value: 13}, {name: '2017-06-02', value: 1}, {name: '2017-05-31', value: 3}, {name: '2017-05-30', value: 4}, {name: '2017-05-29', value: 3}, {name: '2017-05-26', value: 40}, {name: '2017-05-25', value: 26}, {name: '2017-05-24', value: 43}, {name: '2017-05-23', value: 3}]);
+            reply(200, [{ name: '2017-06-18', value: 2 }, { name: '2017-06-16', value: 47 }, { name: '2017-06-12', value: 4 }, { name: '2017-06-08', value: 55 }, { name: '2017-06-07', value: 2 }, { name: '2017-06-06', value: 1 }, { name: '2017-06-05', value: 2 }, { name: '2017-06-04', value: 13 }, { name: '2017-06-02', value: 1 }, { name: '2017-05-31', value: 3 }, { name: '2017-05-30', value: 4 }, { name: '2017-05-29', value: 3 }, { name: '2017-05-26', value: 40 }, { name: '2017-05-25', value: 26 }, { name: '2017-05-24', value: 43 }, { name: '2017-05-23', value: 3 }]);
 
         await Actions.getUsersPerDayAnalytics()(store.dispatch, store.getState);
         await Actions.getUsersPerDayAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
@@ -780,7 +780,7 @@ describe('Actions.Admin', () => {
     it('overwritePlugin', async () => {
         const data1 = fs.createReadStream('test/setup.js');
         const data2 = fs.createReadStream('test/setup.js');
-        const testPlugin = {id: 'testplugin', webapp: {bundle_path: '/static/somebundle.js'}};
+        const testPlugin = { id: 'testplugin', webapp: { bundle_path: '/static/somebundle.js' } };
 
         nock(Client4.getBaseRoute()).
             post('/plugins', (body) => {
@@ -805,7 +805,7 @@ describe('Actions.Admin', () => {
 
     it('uploadPlugin', async () => {
         const testFileData = fs.createReadStream('test/assets/images/test.png');
-        const testPlugin = {id: 'testplugin', webapp: {bundle_path: '/static/somebundle.js'}};
+        const testPlugin = { id: 'testplugin', webapp: { bundle_path: '/static/somebundle.js' } };
 
         nock(Client4.getBaseRoute()).
             post('/plugins').
@@ -821,7 +821,7 @@ describe('Actions.Admin', () => {
 
     it('overwriteInstallPlugin', async () => {
         const downloadUrl = 'testplugin.tar.gz';
-        const testPlugin = {id: 'testplugin', webapp: {bundle_path: '/static/somebundle.js'}};
+        const testPlugin = { id: 'testplugin', webapp: { bundle_path: '/static/somebundle.js' } };
 
         let urlMatch = `/plugins/install_from_url?plugin_download_url=${downloadUrl}&force=false`;
         nock(Client4.getBaseRoute()).
@@ -850,7 +850,7 @@ describe('Actions.Admin', () => {
 
     it('installPluginFromUrl', async () => {
         const downloadUrl = 'testplugin.tar.gz';
-        const testPlugin = {id: 'testplugin', webapp: {bundle_path: '/static/somebundle.js'}};
+        const testPlugin = { id: 'testplugin', webapp: { bundle_path: '/static/somebundle.js' } };
 
         const urlMatch = `/plugins/install_from_url?plugin_download_url=${downloadUrl}&force=false`;
         nock(Client4.getBaseRoute()).
@@ -866,12 +866,12 @@ describe('Actions.Admin', () => {
     });
 
     it('getPlugins', async () => {
-        const testPlugin = {id: 'testplugin', webapp: {bundle_path: '/static/somebundle.js'}};
-        const testPlugin2 = {id: 'testplugin2', webapp: {bundle_path: '/static/somebundle.js'}};
+        const testPlugin = { id: 'testplugin', webapp: { bundle_path: '/static/somebundle.js' } };
+        const testPlugin2 = { id: 'testplugin2', webapp: { bundle_path: '/static/somebundle.js' } };
 
         nock(Client4.getBaseRoute()).
             get('/plugins').
-            reply(200, {active: [testPlugin], inactive: [testPlugin2]});
+            reply(200, { active: [testPlugin], inactive: [testPlugin2] });
 
         await Actions.getPlugins()(store.dispatch, store.getState);
 
@@ -920,11 +920,11 @@ describe('Actions.Admin', () => {
     });
 
     it('removePlugin', async () => {
-        const testPlugin = {id: 'testplugin3', webapp: {bundle_path: '/static/somebundle.js'}};
+        const testPlugin = { id: 'testplugin3', webapp: { bundle_path: '/static/somebundle.js' } };
 
         nock(Client4.getBaseRoute()).
             get('/plugins').
-            reply(200, {active: [], inactive: [testPlugin]});
+            reply(200, { active: [], inactive: [testPlugin] });
 
         await Actions.getPlugins()(store.dispatch, store.getState);
 
@@ -951,11 +951,11 @@ describe('Actions.Admin', () => {
     });
 
     it('enablePlugin', async () => {
-        const testPlugin = {id: TestHelper.generateId(), webapp: {bundle_path: '/static/somebundle.js'}};
+        const testPlugin = { id: TestHelper.generateId(), webapp: { bundle_path: '/static/somebundle.js' } };
 
         nock(Client4.getBaseRoute()).
             get('/plugins').
-            reply(200, {active: [], inactive: [testPlugin]});
+            reply(200, { active: [], inactive: [testPlugin] });
 
         await Actions.getPlugins()(store.dispatch, store.getState);
 
@@ -984,11 +984,11 @@ describe('Actions.Admin', () => {
     });
 
     it('disablePlugin', async () => {
-        const testPlugin = {id: TestHelper.generateId(), webapp: {bundle_path: '/static/somebundle.js'}};
+        const testPlugin = { id: TestHelper.generateId(), webapp: { bundle_path: '/static/somebundle.js' } };
 
         nock(Client4.getBaseRoute()).
             get('/plugins').
-            reply(200, {active: [testPlugin], inactive: []});
+            reply(200, { active: [testPlugin], inactive: [] });
 
         await Actions.getPlugins()(store.dispatch, store.getState);
 
@@ -1020,8 +1020,8 @@ describe('Actions.Admin', () => {
         const ldapGroups = {
             count: 2,
             groups: [
-                {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: false},
-                {primary_key: 'test2', name: 'test2', mattermost_group_id: 'mattermost-id', has_syncables: true},
+                { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: false },
+                { primary_key: 'test2', name: 'test2', mattermost_group_id: 'mattermost-id', has_syncables: true },
             ],
         };
 
@@ -1048,7 +1048,7 @@ describe('Actions.Admin', () => {
             get('/ldap/groups?page=0&per_page=100&q=&is_linked=true').
             reply(200, NO_GROUPS_RESPONSE);
 
-        await Actions.getLdapGroups(0, 100, {q: '', is_linked: true})(store.dispatch, store.getState);
+        await Actions.getLdapGroups(0, 100, { q: '', is_linked: true })(store.dispatch, store.getState);
 
         let state = store.getState();
         let request = state.requests.admin.getLdapGroups;
@@ -1060,7 +1060,7 @@ describe('Actions.Admin', () => {
             get('/ldap/groups?page=0&per_page=100&q=&is_linked=false').
             reply(200, NO_GROUPS_RESPONSE);
 
-        await Actions.getLdapGroups(0, 100, {q: '', is_linked: false})(store.dispatch, store.getState);
+        await Actions.getLdapGroups(0, 100, { q: '', is_linked: false })(store.dispatch, store.getState);
 
         state = store.getState();
         request = state.requests.admin.getLdapGroups;
@@ -1074,7 +1074,7 @@ describe('Actions.Admin', () => {
             get('/ldap/groups?page=0&per_page=100&q=&is_configured=true').
             reply(200, NO_GROUPS_RESPONSE);
 
-        await Actions.getLdapGroups(0, 100, {q: '', is_configured: true})(store.dispatch, store.getState);
+        await Actions.getLdapGroups(0, 100, { q: '', is_configured: true })(store.dispatch, store.getState);
 
         let state = store.getState();
         let request = state.requests.admin.getLdapGroups;
@@ -1086,7 +1086,7 @@ describe('Actions.Admin', () => {
             get('/ldap/groups?page=0&per_page=100&q=&is_configured=false').
             reply(200, NO_GROUPS_RESPONSE);
 
-        await Actions.getLdapGroups(0, 100, {q: '', is_configured: false})(store.dispatch, store.getState);
+        await Actions.getLdapGroups(0, 100, { q: '', is_configured: false })(store.dispatch, store.getState);
 
         state = store.getState();
         request = state.requests.admin.getLdapGroups;
@@ -1100,7 +1100,7 @@ describe('Actions.Admin', () => {
             get('/ldap/groups?page=0&per_page=100&q=est').
             reply(200, NO_GROUPS_RESPONSE);
 
-        await Actions.getLdapGroups(0, 100, {q: 'est'})(store.dispatch, store.getState);
+        await Actions.getLdapGroups(0, 100, { q: 'est' })(store.dispatch, store.getState);
 
         let state = store.getState();
         let request = state.requests.admin.getLdapGroups;
@@ -1112,7 +1112,7 @@ describe('Actions.Admin', () => {
             get('/ldap/groups?page=0&per_page=100&q=esta').
             reply(200, NO_GROUPS_RESPONSE);
 
-        await Actions.getLdapGroups(0, 100, {q: 'esta'})(store.dispatch, store.getState);
+        await Actions.getLdapGroups(0, 100, { q: 'esta' })(store.dispatch, store.getState);
 
         state = store.getState();
         request = state.requests.admin.getLdapGroups;
@@ -1125,8 +1125,8 @@ describe('Actions.Admin', () => {
         const ldapGroups = {
             count: 2,
             groups: [
-                {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: false},
-                {primary_key: 'test2', name: 'test2', mattermost_group_id: 'mattermost-id', has_syncables: true},
+                { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: false },
+                { primary_key: 'test2', name: 'test2', mattermost_group_id: 'mattermost-id', has_syncables: true },
             ],
         };
 
@@ -1140,7 +1140,7 @@ describe('Actions.Admin', () => {
 
         nock(Client4.getBaseRoute()).
             post(`/ldap/groups/${key}/link`).
-            reply(200, {display_name: 'test1', id: 'new-mattermost-id'});
+            reply(200, { display_name: 'test1', id: 'new-mattermost-id' });
 
         await Actions.linkLdapGroup(key)(store.dispatch, store.getState);
 
@@ -1155,8 +1155,8 @@ describe('Actions.Admin', () => {
         const ldapGroups = {
             count: 2,
             groups: [
-                {primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: false},
-                {primary_key: 'test2', name: 'test2', mattermost_group_id: 'mattermost-id', has_syncables: true},
+                { primary_key: 'test1', name: 'test1', mattermost_group_id: null, has_syncables: false },
+                { primary_key: 'test2', name: 'test2', mattermost_group_id: 'mattermost-id', has_syncables: true },
             ],
         };
 
@@ -1170,7 +1170,7 @@ describe('Actions.Admin', () => {
 
         nock(Client4.getBaseRoute()).
             delete(`/ldap/groups/${key}/link`).
-            reply(200, {ok: true});
+            reply(200, { ok: true });
 
         await Actions.unlinkLdapGroup(key)(store.dispatch, store.getState);
 

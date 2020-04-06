@@ -1,12 +1,12 @@
 {
-  "name": "mattermost-redux",
-  "version": "5.3.1",
-  "description": "Common code (API client, Redux stores, logic, utility functions) for building a Mattermost client",
-  "homepage": "https://github.com/mattermost/mattermost-redux",
+  "name": "bulletin-redux",
+  "version": "1.0.0",
+  "description": "Common code (API client, Redux stores, logic, utility functions) for building a Bulletin client",
+  "homepage": "https://github.com/l3lackcurtains/bulletin-redux",
   "license": "Apache-2.0",
-  "repository": "github:mattermost/mattermost-redux",
+  "repository": "github:l3lackcurtains/bulletin-redux",
   "bugs": {
-    "url": "https://github.com/mattermost/mattermost-redux/issues"
+    "url": "https://github.com/mattermost/bulletin-redux/issues"
   },
   "scripts": {
     "start": "ttsc --watch",
@@ -19,10 +19,10 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "prepare": "npm run build",
-    "dev": "ttsc --outDir ${WEBAPP_DIR:-../mattermost-webapp}/node_modules/mattermost-redux",
-    "dev-mobile": "ttsc --outDir ${MOBILE_DIR:-../mattermost-mobile}/node_modules/mattermost-redux",
-    "dev:watch": "ttsc --watch --outDir ${WEBAPP_DIR:-../mattermost-webapp}/node_modules/mattermost-redux",
-    "dev-mobile:watch": "ttsc --watch --outDir ${MOBILE_DIR:-../mattermost-mobile}/node_modules/mattermost-redux"
+    "dev": "ttsc --outDir ${WEBAPP_DIR:-../mattermost-webapp}/node_modules/bulletin-redux",
+    "dev-mobile": "ttsc --outDir ${MOBILE_DIR:-../mattermost-mobile}/node_modules/bulletin-redux",
+    "dev:watch": "ttsc --watch --outDir ${WEBAPP_DIR:-../mattermost-webapp}/node_modules/bulletin-redux",
+    "dev-mobile:watch": "ttsc --watch --outDir ${MOBILE_DIR:-../mattermost-mobile}/node_modules/bulletin-redux"
   },
   "dependencies": {
     "core-js": "3.1.4",
